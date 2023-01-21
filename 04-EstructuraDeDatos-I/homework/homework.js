@@ -15,7 +15,40 @@ function nFibonacci(n) {
 }
 
 // EJERCICIO 3
-function Queue() {}
+
+function Queue() {
+   this.array = [];
+}
+
+Queue.prototype.enqueue = function(value){
+   this.array.push(value);
+}
+
+Queue.prototype.dequeue = function(){
+   return this.array.shift();
+}
+
+Queue.prototype.size = function(){
+   return this.array.length;
+}
+
+// The same constructor function but built with class syntax instead
+/*
+class Queue {
+   constructor() {
+      this.array = [];
+   }
+   enqueue(value) {
+      this.array.push(value);
+   }
+   dequeue() {
+      return this.array.shift();
+   }
+   size() {
+      return this.array.length;
+   }
+}
+*/
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
