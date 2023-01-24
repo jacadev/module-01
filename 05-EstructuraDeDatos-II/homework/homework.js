@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /* EJERCICIO 1
 Implementar la clase LinkedList, definiendo los siguientes métodos:
@@ -10,9 +10,81 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
-function LinkedList() {}
 
-function Node(value) {}
+function LinkedList() {
+  this._length = 0;
+  this.head = null;
+}
+
+function Node(value) {
+  this.value = value;
+  this.next = null;
+}
+
+LinkedList.prototype.add = function (value) {
+  let node = new Node(value);
+  if (!this.head) {
+    this.head = node;
+    this._length++;
+    return node;
+  } else {
+    if (!this.head.next) {
+      this.head.next = node;
+      this._length++;
+      return node;
+    } else {
+      let current = this.head;
+      while (current.next !== null) {
+        current = current.next;
+      }
+      current.next = node;
+      this._length++;
+      return node;
+    }
+  }
+};
+
+LinkedList.prototype.remove = function () {
+  if (!this.head) {
+    return null;
+  } else if (this._length === 1) {
+    let aux = this.head.value;
+    this.head = null;
+    return aux;
+  }
+  let current = this.head;
+  while (current.next.next !== null) {
+    current = current.next;
+  }
+  let aux = current.next.value;
+  current.next = null;
+  this._length--;
+  return aux;
+};
+
+LinkedList.prototype.search = function (value) {
+  if (typeof value === "function") {
+    let current = this.head;
+    if (value(this.head.value)) return this.head.value;
+    else {
+      while (current.next !== null) {
+        current = current.next;
+        if (value(current.value)) return current.value;
+      }
+      return null;
+    }
+  } else {
+    let current = this.head;
+    if (this.head.value === value) return this.head.value;
+    else {
+      while (current.next !== null) {
+        current = current.next;
+        if (current.value === value) return current.value;
+      }
+      return null;
+    }
+  }  
+};
 
 /* EJERCICIO 2
 Implementar la clase HashTable.
@@ -33,7 +105,7 @@ function HashTable() {}
 // --------------------------------
 
 module.exports = {
-   Node,
-   LinkedList,
-   HashTable,
+  Node,
+  LinkedList,
+  HashTable,
 };
