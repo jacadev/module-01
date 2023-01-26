@@ -83,7 +83,7 @@ LinkedList.prototype.search = function (value) {
       }
       return null;
     }
-  }  
+  }
 };
 
 /* EJERCICIO 2
@@ -99,7 +99,44 @@ La clase debe tener los siguientes métodos:
 
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
-function HashTable() {}
+
+function HashTable(buckets = 35) {
+  this.bucket = {};
+  this.numBuckets = buckets;
+}
+
+HashTable.prototype.hash = function (value) {
+  let count = 0;
+  for (const element of value) {
+    count += element.charCodeAt();
+  }
+  count = count % this.numBuckets;
+  return count;
+};
+
+HashTable.prototype.set = function (key, value) {
+  let keyHashed = this.hash(key).toString();
+  if (this.bucket.hasOwnProperty(keyHashed)) {
+    this.bucket[keyHashed][key] = value;
+    return this.bucket;
+  } else {
+    this.bucket[keyHashed] = {};
+    this.bucket[keyHashed][key] = value;
+    return this.bucket;
+  }
+};
+
+HashTable.prototype.get = function (key) {
+  let keyHashed = this.hash(key).toString();
+  if (this.bucket[keyHashed] !== undefined) return this.bucket[keyHashed][key];    
+  else return null;
+};
+
+HashTable.prototype.hasKey = function (key) {
+  let keyHashed = this.hash(key).toString();
+  if (Object.keys(this.bucket[keyHashed]).toString() === key) return true;
+  else return false;
+};
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
